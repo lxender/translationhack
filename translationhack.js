@@ -3,9 +3,9 @@
 		if (typeof translationButtonHere === "undefined") {
 			translationButtonHere = true;
 
-			songSlug = location.pathname.replace(/\//, "").replace(/-lyrics$/, "");
+			songTitle = TRACKING_DATA["Title"];
 
-			$.get(`https://genius.com/api/search?q="Genius-ubersetzungen-${songSlug}`, function(result) {
+			$.get(`https://genius.com/api/search?q="Genius Übersetzungen ${songSlug}"`, function(result) {
 				translationUrl = result.response.hits[0].result.url;
 			});
 
