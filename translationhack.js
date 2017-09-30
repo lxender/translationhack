@@ -5,7 +5,7 @@
 
 			songTitle = TRACKING_DATA["Title"];
 
-			$.get(`https://genius.com/api/search?q="Genius Übersetzungen ${songSlug}"`, function(result) {
+			$.get(`https://genius.com/api/search?q="Genius Übersetzungen ${songTitle}"`, function(result) {
 				translationUrl = result.response.hits[0].result.url;
 			});
 
