@@ -1,3 +1,5 @@
+"use srict";
+
 (
 	() => {
 		if (typeof translationButtonHere === "undefined") {
@@ -89,7 +91,8 @@
 							}
 						}
 					});
-
+					
+					dropdownHidden = false;
 				}
 				else {
 					if (dropdownHidden) {
