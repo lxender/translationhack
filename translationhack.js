@@ -3,7 +3,7 @@
 		if (typeof translationButtonHere === "undefined") {
 			translationButtonHere = true;
 
-			songTitle = TRACKING_DATA["Title"];
+			songTitle = TRACKING_DATA["Primary Artist"] + " " + TRACKING_DATA["Title"];
 
 			dropContent = $("<div>")
 				.append($("<div>")
@@ -22,42 +22,46 @@
 				.html("Translations " + arrowSvg)
 				.insertBefore($(".lyrics_controls")[0].lastElementChild);
 
-			$.get(`https://genius.com/api/search?q="Genius Übersetzungen ${songTitle}"`).done((result) => {
-				translationUrl = result.response.hits[0].result.url;
+			$.get(`https://genius.com/api/search?q="Genius Übersetzungen ${songTitle}"`, (result) => {
+				if (!!result.response.hits.length) {
+					translationUrl = result.response.hits[0].result.url;
 
-				$($(dropContent)[0].children[0])
-					.append(() => {
-							if (TRACKING_DATA["Title"].indexOf("[Deutsche Übersetzung]") != -1) {
-								$(".translation-button").remove();
+					$($(dropContent)[0].children[0])
+						.append(() => {
+								if (TRACKING_DATA["Title"].indexOf("[Deutsche Übersetzung]") != -1) {
+									$(".translation-button").remove();
 
-								alert("This is already a translation!");
+									alert("This is already a translation!");
 
-								return "";
+									return "";
+								}
+								else {
+									return $("<a>")
+										.attr({
+											class: "tooltip-list_item",
+											href: translationUrl
+										})
+										.text("German")
+
+								}
 							}
-							else {
-								return $("<a>")
-									.attr({
-										class: "tooltip-list_item",
-										href: translationUrl
-									})
-									.text("German")
 
-							}
-						}
+						);
 
-					);
+				}
+				else {
+					$($(dropContent)[0].children[0])
+						.append($("<a>")
+							.attr({
+								class: "tooltip-list_item",
+								href: "https://genius.com/new"
 
-			}).fail(() => {
-				$($(dropContent)[0].children[0])
-					.append($("<a>")
-						.attr({
-							class: "tooltip-list_item",
-							href: "https://genius.com/new"
+							})
+							.text("Not found. Add one!")
+						);
 
-						})
-						.text("Not found. Add one!")
-					);
-			}).always(() => {
+				}
+
 				dropInstance = new Drop({
 					target: $('.translation-button')[0],
 					content: dropContent[0],
@@ -80,6 +84,7 @@
 						]
 					}
 				})
+
 			});
 
 		}
